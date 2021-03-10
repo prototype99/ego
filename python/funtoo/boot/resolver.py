@@ -65,7 +65,7 @@ class Resolver:
 		return device_ref
 
 	def resolvedev(self, dev):
-		if (dev[0:5] == "UUID=") or (dev[0:6] == "LABEL="):
+		if (dev[0:5] == "UUID=") or (dev[0:9] == "PARTUUID=") or (dev[0:6] == "LABEL="):
 			cmdobj = Popen(["/sbin/findfs", dev], bufsize=-1, stdout=PIPE, stderr=PIPE, shell=False)
 			output = cmdobj.communicate()
 			return output[0].decode()
@@ -199,7 +199,7 @@ class Resolver:
 			rootflags = self.fstabinfo.getRootMountFlags()
 			# filter out ones that the kernel can't handle:
 			rootflags = self.filterRootFlags(rootflags)
-			if (rootdev[0:5] != "/dev/") and (rootdev[0:5] != "UUID=") and (rootdev[0:6] != "LABEL="):
+			if (rootdev[0:5] != "/dev/") and (rootdev[0:5] != "UUID=") and (rootdev[0:9] != "PARTUUID=") and (rootdev[0:6] != "LABEL="):
 				ok = False
 				self.msgs.append(["fatal", "(root=auto) - / entry in /etc/fstab not recognized ({dev}).".format(dev=rootdev)])
 			else:
