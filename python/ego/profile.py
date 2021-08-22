@@ -159,7 +159,7 @@ class MetaProfileCatalog:
 	def find_path(self, profile_type, name):
 		name_split = name.split(":")
 		if len(name_split) == 1:
-			repo = "core-kit"
+			repo = "didos"
 		else:
 			repo, name = name_split
 		if repo not in self.catalogs.keys():
@@ -181,7 +181,7 @@ class MetaProfileCatalog:
 	@property
 	def profile_root(self):
 		# This property is used by ProfileSpecifier for resolving ':foo' stuff in profiles.
-		return self.config.kits_root + "/core-kit/profiles"
+		return self.config.kits_root + "/didos/profiles"
 
 class ProfileCatalog:
 	"""
@@ -271,7 +271,7 @@ class ProfileCatalog:
 				for profile_root in os.listdir(p):
 					if os.path.isdir(p + "/" + profile_root):
 						self.directory_map[key][profile_root] = dirname + "/" + profile_root
-						if self.repo_name != "core-kit":
+						if self.repo_name != "didos":
 							yield self.repo_name + ":" + profile_root
 						else:
 							yield profile_root
@@ -360,7 +360,7 @@ class ProfileSpecifier(object):
 
 	@property
 	def name(self):
-		if self.repo_name is None or self.repo_name == "core-kit":
+		if self.repo_name is None or self.repo_name == "didos":
 			return self.resolved_path.split('/')[-1]
 		else:
 			return self.repo_name + ":" + self.resolved_path.split('/')[-1]
@@ -685,7 +685,7 @@ class ProfileTree(object):
 def getProfileCatalogAndTree(config):
 	funtoo_repos = all_funtoo_repos(config)
 	catalog = MetaProfileCatalog(config, funtoo_repos)
-	tree = ProfileTree(catalog, "core-kit", config, funtoo_repos)
+	tree = ProfileTree(catalog, "didos", config, funtoo_repos)
 	current_arch = tree.get_arch()
 	catalog.set_arch(current_arch.name if current_arch is not None else None)
 	return catalog, tree
