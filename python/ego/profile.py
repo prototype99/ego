@@ -262,7 +262,7 @@ class ProfileCatalog:
 		# For now, disable defining new arches in overlays. This prevents extra arches from being displayed when
 		# sub-arches are defined.
 
-		if self.repo_name != "core-kit" and key == ProfileType.ARCH:
+		if key == ProfileType.ARCH:
 			return
 
 		for dirname in dirlist:
